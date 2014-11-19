@@ -4,11 +4,20 @@
 
 #import <Foundation/Foundation.h>
 
+
 @interface NSError (EasyExplanationError)
 
-@property (nonatomic, readonly) NSString *eee_whatWentWrongAndWhy;
-@property (nonatomic, readonly) NSString *eee_why;
-@property (nonatomic, readonly) NSString *eee_suggestion;
+/*
+ * Examples
+ *
+ * whatWentWrongAndWhy: Could not log in due to bad username and/or password
+ * why: Username and/or password is incorrect
+ * suggestion: Verify username and password is typed correctly
+ */
+
+@property (nonatomic, readonly) NSString *eee_whatWentWrongAndWhy; // NSLocalizedDescriptionKey
+@property (nonatomic, readonly) NSString *eee_why; // NSLocalizedFailureReasonErrorKey
+@property (nonatomic, readonly) NSString *eee_suggestion; // NSLocalizedRecoverySuggestionErrorKey
 
 + (instancetype)eee_errorWithDomain:(NSString *)domain
                                code:(NSUInteger)code
@@ -29,20 +38,27 @@
                                 why:(NSString *)why
                          suggestion:(NSString *)suggestion
                     underlyingError:(NSError *)underlyingError
-                      extraUserInfo:(NSError *)extraInfo;
+                      extraUserInfo:(NSDictionary *)extraInfo;
 
-- (instancetype)eee_errorWithDomain:(NSString *)domain
++ (instancetype)eee_errorWithDomain:(NSString *)domain
                                code:(NSUInteger)code
                  getExplanationFrom:(NSError *)underlyingError;
 
-- (instancetype)eee_errorWithDomain:(NSString *)domain
++ (instancetype)eee_errorWithDomain:(NSString *)domain
                                code:(NSUInteger)code
                  getExplanationFrom:(NSError *)underlyingError
                       extraUserInfo:(NSDictionary *)extraInfo;
 
-- (void)eee_throwException;
+- (instancetype)eee_useExplanationAndCreateErrorWithDomain:(NSString *)domain
+                                                      code:(NSUInteger)code;
 
-- (void)eee_throwExceptionWithName:(NSString *)name;
+- (instancetype)eee_useExplanationAndCreateErrorWithDomain:(NSString *)domain
+                                                      code:(NSUInteger)code
+                                             extraUserInfo:(NSDictionary *)extraInfo;
+
+- (NSException *)eee_errorAsException;
+
+- (NSException *)eee_errorAsExceptionWithName:(NSString *)name;
 
 @end
 

@@ -24,6 +24,8 @@
 
 @implementation NSError (EasyExplanationError)
 
+#pragma mark - Constructors
+
 + (instancetype)eee_errorWithDomain:(NSString *)domain
                                code:(NSUInteger)code
                 whatWentWrongAndWhy:(NSString *)whatAndWhy
@@ -71,11 +73,60 @@
     [userInfo setValue:whatAndWhy forKey:NSLocalizedDescriptionKey];
     [userInfo setValue:why forKey:NSLocalizedFailureReasonErrorKey];
     [userInfo setValue:suggestion forKey:NSLocalizedRecoverySuggestionErrorKey];
-    [userInfo setValue:suggestion forKey:NSUnderlyingErrorKey];
+
+    if(underlyingError != nil)
+    {
+        [userInfo setValue:underlyingError forKey:NSUnderlyingErrorKey];
+    }
 
     NSError *error = [NSError errorWithDomain:domain code:code userInfo:userInfo];
     return error;
 }
+
++ (instancetype)eee_errorWithDomain:(NSString *)domain
+                               code:(NSUInteger)code
+                 getExplanationFrom:(NSError *)underlyingError
+{
+    return [self eee_errorWithDomain:domain
+                                code:code
+                  getExplanationFrom:underlyingError
+                       extraUserInfo:nil];
+}
+
++ (instancetype)eee_errorWithDomain:(NSString *)domain
+                               code:(NSUInteger)code
+                 getExplanationFrom:(NSError *)underlyingError
+                      extraUserInfo:(NSDictionary *)extraInfo
+{
+    EEEErrorAssert(underlyingError != nil, @"Can not initialize without underlyingError");
+
+    NSMutableDictionary *userInfo = [NSMutableDictionary new];
+    if(underlyingError.userInfo != nil)
+    {
+        [userInfo addEntriesFromDictionary:underlyingError.userInfo];
+    }
+    if(extraInfo != nil)
+    {
+        [userInfo addEntriesFromDictionary:extraInfo];
+    }
+    [userInfo setValue:underlyingError forKey:NSUnderlyingErrorKey];
+    return [NSError errorWithDomain:domain code:code userInfo:userInfo];
+}
+
+- (instancetype)eee_useExplanationAndCreateErrorWithDomain:(NSString *)domain
+                                                      code:(NSUInteger)code
+{
+    return [NSError eee_errorWithDomain:domain code:code getExplanationFrom:self];
+}
+
+- (instancetype)eee_useExplanationAndCreateErrorWithDomain:(NSString *)domain
+                                                      code:(NSUInteger)code
+                                             extraUserInfo:(NSDictionary *)extraInfo
+{
+    return [NSError eee_errorWithDomain:domain code:code getExplanationFrom:self extraUserInfo:extraInfo];
+}
+
+#pragma mark - Properties
 
 - (NSString *)eee_whatWentWrongAndWhy
 {
@@ -92,37 +143,16 @@
     return [self.userInfo objectForKey:NSLocalizedRecoverySuggestionErrorKey];
 }
 
-- (instancetype)eee_errorWithDomain:(NSString *)domain
-                               code:(NSUInteger)code
-                 getExplanationFrom:(NSError *)underlyingError
+#pragma mark - Exceptions
+
+- (NSException *)eee_errorAsException
 {
-    return [self eee_errorWithDomain:domain
-                                code:code
-                  getExplanationFrom:underlyingError
-                       extraUserInfo:nil];
+    return [self eee_errorAsExceptionWithName:NSGenericException];
 }
 
-- (instancetype)eee_errorWithDomain:(NSString *)domain
-                               code:(NSUInteger)code
-                 getExplanationFrom:(NSError *)underlyingError
-                      extraUserInfo:(NSDictionary *)extraInfo
+- (NSException *)eee_errorAsExceptionWithName:(NSString *)name
 {
-    EEEErrorAssert(underlyingError != nil, @"Can not initialize without underlyingError");
-    EEEErrorAssert(underlyingError.userInfo != nil, @"Expecting underlyingError to have userInfo");
-
-    NSMutableDictionary *userInfo = [underlyingError.userInfo mutableCopy];
-    [userInfo setValue:underlyingError forKey:NSUnderlyingErrorKey];
-    return [NSError errorWithDomain:domain code:code userInfo:extraInfo];
-}
-
-- (void)eee_throwException
-{
-    [self eee_throwExceptionWithName:NSGenericException];
-}
-
-- (void)eee_throwExceptionWithName:(NSString *)name
-{
-    [[NSException exceptionWithName:name reason:self.eee_whatWentWrongAndWhy userInfo:self.userInfo] raise];
+    return [NSException exceptionWithName:name reason:self.eee_whatWentWrongAndWhy userInfo:self.userInfo];
 }
 
 @end
