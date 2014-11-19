@@ -1,7 +1,7 @@
 Pod::Spec.new do |s|
     s.name         = "SaneNSError"
     s.version      = "1.0"
-    s.summary      = "Quadrilaterals on CALayer, CGGeometry-functions, UIView/CALayer properties and other invaluable tools."
+    s.summary      = "Unambiguous interface for NSError."
     s.homepage     = "https://github.com/hfossli/SaneNSError"
     s.license      = 'MIT'
     s.platform      = :ios, '5.0'
