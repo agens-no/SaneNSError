@@ -13,8 +13,8 @@ Creating errors is much easier and ambiguous now:
 
     NSError *error = [NSError errorWithDomain:ZYZUserServiceDomain
                                          code:0
-                          whatWentWrongAndWhy:@"Could not log in due to incorrect username and/or password"
-                                          why:@"Username and/or password is incorrect"
+                          whatWentWrongAndWhy:@"Could not log in due to incorrect username or password"
+                                          why:@"Username or password is incorrect"
                                    suggestion:@"Verify username and password is typed correctly"];
 
 Handy properties:
