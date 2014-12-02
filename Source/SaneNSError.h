@@ -39,20 +39,20 @@
 @property (nonatomic, readonly) NSString *suggestion;           // NSLocalizedRecoverySuggestionErrorKey
 
 + (instancetype)errorWithDomain:(NSString *)domain
-                           code:(NSUInteger)code
+                           code:(NSInteger)code
             whatWentWrongAndWhy:(NSString *)whatAndWhy
                             why:(NSString *)why
                      suggestion:(NSString *)suggestion;
 
 + (instancetype)errorWithDomain:(NSString *)domain
-                           code:(NSUInteger)code
+                           code:(NSInteger)code
             whatWentWrongAndWhy:(NSString *)whatAndWhy
                             why:(NSString *)why
                      suggestion:(NSString *)suggestion
                 underlyingError:(NSError *)underlyingError;
 
 + (instancetype)errorWithDomain:(NSString *)domain
-                           code:(NSUInteger)code
+                           code:(NSInteger)code
             whatWentWrongAndWhy:(NSString *)whatAndWhy
                             why:(NSString *)why
                      suggestion:(NSString *)suggestion
@@ -60,19 +60,19 @@
                   extraUserInfo:(NSDictionary *)extraInfo;
 
 + (instancetype)errorWithDomain:(NSString *)domain
-                           code:(NSUInteger)code
+                           code:(NSInteger)code
              getExplanationFrom:(NSError *)underlyingError;
 
 + (instancetype)errorWithDomain:(NSString *)domain
-                           code:(NSUInteger)code
+                           code:(NSInteger)code
              getExplanationFrom:(NSError *)underlyingError
                   extraUserInfo:(NSDictionary *)extraInfo;
 
 - (instancetype)useExplanationAndCreateErrorWithDomain:(NSString *)domain
-                                                  code:(NSUInteger)code;
+                                                  code:(NSInteger)code;
 
 - (instancetype)useExplanationAndCreateErrorWithDomain:(NSString *)domain
-                                                  code:(NSUInteger)code
+                                                  code:(NSInteger)code
                                          extraUserInfo:(NSDictionary *)extraInfo;
 
 - (NSException *)errorAsException;

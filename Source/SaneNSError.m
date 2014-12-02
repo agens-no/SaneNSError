@@ -47,7 +47,7 @@
 #pragma mark - Constructors
 
 + (instancetype)errorWithDomain:(NSString *)domain
-                           code:(NSUInteger)code
+                           code:(NSInteger)code
             whatWentWrongAndWhy:(NSString *)whatAndWhy
                             why:(NSString *)why
                      suggestion:(NSString *)suggestion
@@ -62,7 +62,7 @@
 }
 
 + (instancetype)errorWithDomain:(NSString *)domain
-                           code:(NSUInteger)code
+                           code:(NSInteger)code
             whatWentWrongAndWhy:(NSString *)whatAndWhy
                             why:(NSString *)why
                      suggestion:(NSString *)suggestion
@@ -78,7 +78,7 @@
 }
 
 + (instancetype)errorWithDomain:(NSString *)domain
-                           code:(NSUInteger)code
+                           code:(NSInteger)code
             whatWentWrongAndWhy:(NSString *)whatAndWhy
                             why:(NSString *)why
                      suggestion:(NSString *)suggestion
@@ -104,7 +104,7 @@
 }
 
 + (instancetype)errorWithDomain:(NSString *)domain
-                           code:(NSUInteger)code
+                           code:(NSInteger)code
              getExplanationFrom:(NSError *)underlyingError
 {
     return [self errorWithDomain:domain
@@ -114,7 +114,7 @@
 }
 
 + (instancetype)errorWithDomain:(NSString *)domain
-                           code:(NSUInteger)code
+                           code:(NSInteger)code
              getExplanationFrom:(NSError *)underlyingError
                   extraUserInfo:(NSDictionary *)extraInfo
 {
@@ -134,13 +134,13 @@
 }
 
 - (instancetype)useExplanationAndCreateErrorWithDomain:(NSString *)domain
-                                                  code:(NSUInteger)code
+                                                  code:(NSInteger)code
 {
     return [NSError errorWithDomain:domain code:code getExplanationFrom:self];
 }
 
 - (instancetype)useExplanationAndCreateErrorWithDomain:(NSString *)domain
-                                                  code:(NSUInteger)code
+                                                  code:(NSInteger)code
                                          extraUserInfo:(NSDictionary *)extraInfo
 {
     return [NSError errorWithDomain:domain code:code getExplanationFrom:self extraUserInfo:extraInfo];
