@@ -11,24 +11,27 @@ Creating NSError can often be confusing. According to Apple's guidelines and how
 
 Creating errors is much easier and ambiguous now:
 
-    NSError *error = [NSError errorWithDomain:ZYZUserServiceDomain
-                                         code:0
-                          whatWentWrongAndWhy:@"Could not log in due to incorrect username or password"
-                                          why:@"Username or password is incorrect"
-                                   suggestion:@"Verify username and password is typed correctly"];
+```objc
+NSError *error = [NSError errorWithDomain:ZYZUserServiceDomain
+                                     code:0
+                      whatWentWrongAndWhy:@"Could not log in due to incorrect username or password"
+                                      why:@"Username or password is incorrect"
+                               suggestion:@"Verify username and password is typed correctly"];
+```
 
 Handy properties:
 
-    @property (nonatomic, readonly) NSString *whatWentWrongAndWhy;  // NSLocalizedDescriptionKey
-    @property (nonatomic, readonly) NSString *why;                  // NSLocalizedFailureReasonErrorKey
-    @property (nonatomic, readonly) NSString *suggestion;           // NSLocalizedRecoverySuggestionErrorKey
+```objc
+@property (nonatomic, readonly) NSString *whatWentWrongAndWhy;  // NSLocalizedDescriptionKey
+@property (nonatomic, readonly) NSString *why;                  // NSLocalizedFailureReasonErrorKey
+@property (nonatomic, readonly) NSString *suggestion;           // NSLocalizedRecoverySuggestionErrorKey
+```
 
 Makes it very trivial to get the relevant information:
 
-    NSLog(@"Could not log in: %@", error.why);
-
-
-
+```objc
+NSLog(@"Could not log in: %@", error.why);
+```
 
 ## FAQ
 
